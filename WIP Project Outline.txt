@@ -1,0 +1,29 @@
+maximization-hard
+reduce it to semidefinite program
+
+we solve the semidefinite programming-linear time
+semidefinite  answer is larger than our solution
+randomness-> lowerbound
+
+some preconditions/assumptions to shorten work
+e.g. non negative edge weights
+2 vectors, random hyper plane-> prob that the plane lies between them
+
+
+outline
+gloss over:
+  explain max cut, graphical rep
+  same as max problem
+  relaxation to semidefinite problem-> linear time
+randomized part:
+
+experiments
+data-> TBD
+1 big data to show algo
+small data sets to show accuracy
+
+walkthrough coding problem using jupyter notebook
+similar to hw 2/4/5
+data-> TBD
+WIP Ideas
+heuristics to simplify code to increase speed?
