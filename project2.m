@@ -9,7 +9,7 @@
 % A=A+A';
 
 %% Set up a random graph
-rng(1)
+rng(2)
 n = 50;
 
 p = 0.4;
@@ -27,7 +27,7 @@ cvx_begin sdp quiet
 cvx_end
 
 U = chol(X); %Factor
-r = rand(n,1); %Random vector
+r = mvnrnd(zeros(n,1),diag(ones(n,1)))'; %Random vector
 y = sign(U*r); %Partition data
 
 %Output size of cut

@@ -1,5 +1,5 @@
 %% Set up a random graph
-rng(1)
+rng(2)
 n = 50;
 
 p = 0.4;
@@ -16,7 +16,7 @@ cvx_begin quiet
 cvx_end
 %%
 U = chol(X);
-r = randn(n,1);
-x_hat = sign(U'*r);
+r = mvnrnd(zeros(n,1),diag(ones(n,1)))';
+x_hat = sign(U*r);
 cut = (sum(A(:)) - x_hat'*A*x_hat)/4;
-SDP_opt = (sum(A(:)) - trace(A*X))/4
+SDP_opt = (sum(A(:)) - trace(A*X))/4;
