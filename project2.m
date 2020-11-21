@@ -9,13 +9,13 @@
 % A=A+A';
 
 %% Set up a random graph
+rng(1)
 n = 50;
 
 p = 0.4;
 A = rand(n) < p;
 A = triu(A) + triu(A,1)';
 A = A - diag(diag(A));
-
 
 cvx_begin sdp quiet
     variable X(n,n) symmetric
@@ -26,9 +26,9 @@ cvx_begin sdp quiet
     X == semidefinite(n);
 cvx_end
 
-V = chol(X); %Factor
-w = rand(n,1); %Random vector
-y = sign(V*w); %Partition data
+U = chol(X); %Factor
+r = rand(n,1); %Random vector
+y = sign(U*r); %Partition data
 
 %Output size of cut
 fprintf("Size of cut: %d\n",trace(A * (1 - y*y'))/4);
