@@ -1,19 +1,32 @@
-from numpy import matrix
-from Irene import sdp
-b = [1, -1, 1]
-C = [matrix([[-33, 9], [9, -26]]),
-     matrix([[-14, -9, -40], [-9, -91, -10], [-40, -10, -15]])]
-A1 = [matrix([[7, 11], [11, -3]]),
-      matrix([[21, 11, 0], [11, -10, -8], [0, -8, -5]])]
-A2 = [matrix([[-7, 18], [18, -8]]),
-      matrix([[0, -10, -16], [-10, 10, 10], [-16, 10, -3]])]
-A3 = [matrix([[2, 8], [8, -1]]),
-      matrix([[5, -2, 17], [-2, 6, -8], [17, -8, -6]])]
-SDP = sdp('cvxopt')
-SDP.SetObjective(b)
-SDP.AddConstantBlock(C)
-SDP.AddConstraintBlock(A1)
-SDP.AddConstraintBlock(A2)
-SDP.AddConstraintBlock(A3)
-SDP.solve()
-print(SDP.Info)
+import cvxpy as cp
+import numpy as np
+
+# Generate a random SDP.
+n = 3
+p = 3
+np.random.seed(2)
+C = np.random.randn(n, n)
+A = []
+b = []
+for i in range(p):
+    A.append(np.random.randn(n, n))
+    b.append(np.random.randn())
+
+# Define and solve the CVXPY problem.
+# Create a symmetric matrix variable.
+X = cp.Variable((n,n), symmetric=True)
+# The operator >> denotes matrix inequality.
+constraints = [X >> 0]
+constraints += [
+    cp.trace(A[i] @ X) == b[i] for i in range(p)
+]
+constraints += [
+    cp.diag(X) == 1
+]
+prob = cp.Problem(cp.Minimize(cp.trace(C @ X)), constraints)
+prob.solve(solver='CVXOPT')
+
+# Print result.
+print("The optimal value is", prob.value)
+print("A solution X is")
+print(X.value)
