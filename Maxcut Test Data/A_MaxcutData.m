@@ -1,4 +1,5 @@
 % Loads 10 datasets at a time and computs the cut for each of them
+% Prints [Set] [Actual Cut] [Approximate Cut] [Ratio]
 G = initialize;
 
 for k = 1:10
@@ -13,14 +14,14 @@ for k = 1:10
     end
 
     cut = gw_MaxCut(A, 1000);
-    fprintf("%d,%d,%0.4f\n", G{k}(1,3), cut, cut/G{k}(1,3));
+    fprintf("Set %d: %d, %d, %0.4f\n", k-1, G{k}(1,3), cut, cut/G{k}(1,3));
 end
 
 
 function G = initialize
     G = cell(10,1);
     for i = 1:10
-        G{i} = load(append("MaxcutExamples\g05_100_", string(i-1), ".csv"));
+        G{i} = load(append("g05_60_", string(i-1), ".csv"));
     end
 end
 
