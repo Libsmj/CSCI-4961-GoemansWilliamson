@@ -1,15 +1,13 @@
-% Set up a random graph
-n = 20;
+%Set up a random graph
+n = 50;
 
 p = 0.4;
 A = rand(n) < p;
 A = triu(A) + triu(A,1)';
 A = A - diag(diag(A));
-%disp(A)
 
-cut = gw_MaxCut(A, 1000);
-fprintf("Size of cut %d\n", cut)
-
+cut = gw_MaxCut(A, 100);
+disp(cut)
 
 function cut = gw_MaxCut(A, T)
     [n,~] = size(A);
@@ -31,5 +29,4 @@ function cut = gw_MaxCut(A, T)
         cut = cut + (sum(A(:)) - y'*A*y)/4;
     end
     cut = round(cut / T);
-    
 end
